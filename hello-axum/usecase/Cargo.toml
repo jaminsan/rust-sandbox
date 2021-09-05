@@ -1,0 +1,17 @@
+[package]
+name = "usecase"
+version = "1.0.0"
+edition = "2018"
+
+[dependencies]
+domain = { path = "../domain" }
+port = { path = "../port" }
+async-trait = "0.1.51"
+chrono = "0.4"
+futures = "0.3"
+ulid = { version = "0.4.1"}
+anyhow = "1"
+thiserror = "1"
+
+[dev-dependencies]
+mockall = "0.10.2"

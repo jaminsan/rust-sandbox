@@ -1,0 +1,19 @@
+[package]
+name = "gateway"
+version = "1.0.0"
+edition = "2018"
+
+[dependencies]
+domain = { path = "../domain" }
+port = { path = "../port" }
+driver = { path = "../driver" }
+async-trait = "0.1.51"
+chrono = "0.4"
+futures = "0.3"
+sqlx = { version = "0.5.5", features = ["runtime-tokio-native-tls", "postgres", "uuid", "chrono"] }
+anyhow = "1"
+thiserror = "1"
+ulid = { version = "0.4.1" }
+
+[dev-dependencies]
+mockall = "0.10.2"

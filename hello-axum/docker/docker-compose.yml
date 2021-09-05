@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+
+  purchase-db:
+    build: purchase_db
+    environment:
+      POSTGRES_USER: moke
+      POSTGRES_PASSWORD: moke
+      POSTGRES_DB: purchase
+    ports:
+      - "15432:5432"
+    container_name:
+      purchase-db

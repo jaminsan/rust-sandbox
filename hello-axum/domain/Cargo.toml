@@ -1,0 +1,10 @@
+[package]
+name = "domain"
+version = "1.0.0"
+edition = "2018"
+anyhow = "1"
+thiserror = "1"
+
+[dependencies]
+chrono = "0.4"
+ulid = { version = "0.4.1"}

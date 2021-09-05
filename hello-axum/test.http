@@ -1,0 +1,21 @@
+### registration succeeded
+POST localhost:3000/purchases
+Content-Type: application/json
+
+{
+  "customerId": "01FD7SADZM3S8SR0ATC17MVA5D",
+  "itemId": "01FD7SB2YW5X36A5Q267N7DAS9",
+  "quantity": 1
+}
+
+
+
+### itemId not found
+POST localhost:3000/purchases
+Content-Type: application/json
+
+{
+  "customerId": "01FD7SADZM3S8SR0ATC17MVA5D",
+  "itemId": "01FD7SB2YW5X36A5Q267N7DAS1",
+  "quantity": 1
+}
