@@ -23,11 +23,17 @@ export default () => {
             socket.on('open', () => {
                 socketOpenedCounter.add(1)
             })
+            socket.setInterval(() => {
+                socket.ping()
+            }, 10000)
 
             socket.on('message', checkReceiveMessage)
 
+            socket.setTimeout(() => {
+                socket.close()
+            }, calcClientTimeoutMillSeconds(__VU))
             socket.on('close', () => {
-                console.log(`VU ${__VU}: socket disconnected`)
+                console.log(`VU ${__VU}: socket closed`)
                 socketClosedCounter.add(1)
             })
 
@@ -93,9 +99,9 @@ const reachNUserDurationSeconds =
 
 const env = {
     chatServerHost,
-    receptionDuration: receptionDurationSeconds,
+    receptionDurationSeconds,
     nUser,
-    reachNUserDuration: reachNUserDurationSeconds
+    reachNUserDurationSeconds
 }
 
 export let options: Options = {
@@ -103,8 +109,8 @@ export let options: Options = {
         basic: {
             executor: 'ramping-vus',
             stages: [
-                {duration: `${env.reachNUserDuration}s`, target: env.nUser},
-                {duration: `${env.receptionDuration}s`, target: env.nUser}
+                {duration: `${env.reachNUserDurationSeconds}s`, target: env.nUser},
+                {duration: `${env.receptionDurationSeconds}s`, target: env.nUser},
             ],
             gracefulStop: '5s',
             gracefulRampDown: '5s'
@@ -117,3 +123,6 @@ export let options: Options = {
         'SocketError': [`count<=0`]
     }
 }
+
+const calcClientTimeoutMillSeconds = (vu: number) =>
+    1000 + env.receptionDurationSeconds * 1000 + env.reachNUserDurationSeconds * 1000 * ((nUser - vu) / nUser)

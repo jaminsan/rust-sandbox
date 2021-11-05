@@ -139,8 +139,8 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for RoomsWsHandler {
                 };
             }
 
-            Ok(ws::Message::Ping(b)) => {
-                ctx.pong(&b);
+            Ok(ws::Message::Ping(_)) => {
+                // ctx.pong(&b);
             }
 
             Ok(ws::Message::Close(_)) | Err(_) => {
