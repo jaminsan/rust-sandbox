@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "modules/domain",
+    "modules/port",
+    "modules/driver",
+    "modules/usecase",
+    "modules/gateway",
+    "modules/app"
+]

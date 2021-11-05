@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "outDir": "dist",
+    "pretty": true,
+    "strict": false,
+    "sourceMap": false,
+    "incremental": false,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "k6"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

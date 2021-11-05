@@ -1,0 +1,16 @@
+[package]
+name = "gateway"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+futures = "0.3"
+async-trait = "0.1.51"
+actix = "0.12"
+actix-broker = "0.4.1"
+tokio = "1.13.0"
+
+# Internal Dependencies
+domain = { path = "../domain" }
+port = { path = "../port" }
+driver = { path = "../driver" }

@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  chat-redis:
+    image: "redis:alpine"
+    ports:
+      - "7000:6379"

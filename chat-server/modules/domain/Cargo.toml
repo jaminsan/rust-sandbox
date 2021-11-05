@@ -1,0 +1,9 @@
+[package]
+name = "domain"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+actix = "0.12"
+actix-broker = "0.4.1"
+uuid = { version = "0.8.2", features = ["v4"] }
