@@ -1,0 +1,15 @@
+_format_version: "2.1"
+
+services:
+  - name: chat-server
+    url: "http://host.docker.internal:3000"
+    routes:
+      - name: chat-route
+        paths:
+          - /chat
+  - name: auth-api
+    url: "http://host.docker.internal:3001"
+    routes:
+      - name: auth-route
+        paths:
+          - /auth
