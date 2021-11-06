@@ -100,6 +100,7 @@ impl Handler<AudienceJoined> for Room {
             ).start();
 
         self.audiences.add(audience.downgrade());
+        println!(">>>>> Total number of audiences: {}", self.audiences.0.len());
 
         MessageResult(audience)
     }

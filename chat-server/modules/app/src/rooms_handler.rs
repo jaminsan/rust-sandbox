@@ -17,7 +17,6 @@ pub async fn room_ws_index(
     let room_id = path_var.room_id.clone();
     let audience_id = query.0.audience_id;
 
-    println!(">>>>> Try to join /rooms/ws/{:?} with user {:?}", room_id, audience_id);
     let (addr, res) = ws::start_with_addr(
         RoomsWsHandler::new(),
         &request,
@@ -92,11 +91,9 @@ impl Actor for RoomsWsHandler {
     type Context = ws::WebsocketContext<Self>;
 
     fn started(&mut self, _: &mut Self::Context) {
-        println!(">>>>> RoomsWsHandler started");
     }
 
     fn stopped(&mut self, _: &mut Self::Context) {
-        println!(">>>>> RoomsWsHandler stopped");
     }
 }
 

@@ -1,24 +1,35 @@
+use bb8_redis::{redis, RedisConnectionManager};
+use bb8_redis::bb8::Pool;
+use bb8_redis::redis::{
+    AsyncCommands,
+    FromRedisValue,
+    RedisResult,
+};
 use futures::{Stream, StreamExt};
-use redis::{AsyncCommands, Client, FromRedisValue, RedisResult};
-use redis::aio::Connection;
+
+use crate::REDIS_CONNECTION_POOL;
 
 pub async fn push(comment: CommentValue) {
-    let mut con = get_async_connection().await;
+    let pool = get_pool().await;
+    let mut con = pool.get().await.unwrap();
     let key = channel(&comment.room_id);
     let value = serde_json::to_string(&comment).unwrap();
 
     let _: () = redis::cmd("LPUSH")
         .arg(&[key, value])
-        .query_async(&mut con)
+        .query_async(&mut *con)
         .await
         .unwrap();
 }
 
 pub async fn publish(comment: CommentValue) {
+    let pool = get_pool().await;
+    let mut con = pool.get().await.unwrap();
+
     let value = serde_json::to_string(&comment).unwrap();
 
     let _: () =
-        get_async_connection().await
+        con
             .publish(
                 channel(&comment.room_id),
                 value,
@@ -26,7 +37,7 @@ pub async fn publish(comment: CommentValue) {
 }
 
 pub async fn subscribe(room_id: &String) -> impl Stream<Item=CommentValue> {
-    let mut pubsub = get_async_connection().await.into_pubsub();
+    let mut pubsub = get_new_connection().await.into_pubsub();
 
     let _: () =
         pubsub
@@ -42,14 +53,17 @@ pub async fn subscribe(room_id: &String) -> impl Stream<Item=CommentValue> {
         })
 }
 
-async fn get_async_connection() -> Connection {
-    client().await.get_async_connection().await.unwrap()
+async fn get_new_connection() -> redis::aio::Connection {
+    REDIS_CONNECTION_POOL
+        .read()
+        .await
+        .dedicated_connection()
+        .await
+        .unwrap()
 }
 
-async fn client() -> Client {
-    let redis_host = "redis://localhost:7000";
-
-    redis::Client::open(redis_host).unwrap()
+async fn get_pool<'p>() -> Pool<RedisConnectionManager> {
+    REDIS_CONNECTION_POOL.read().await.clone()
 }
 
 fn channel(room_id: &String) -> String {
