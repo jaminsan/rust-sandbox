@@ -6,7 +6,7 @@ services:
       - "7000:6379"
   proxy-kong:
     build:
-      context: kong
+      context: proxy-kong
     ports:
       - "80:8000"
       - "8443:8443"
@@ -14,11 +14,13 @@ services:
       - "8444:8444"
     environment:
       - "KONG_DATABASE=off"
-      - "KONG_DECLARATIVE_CONFIG=/home/kong/kong.yml"
+      - "KONG_DECLARATIVE_CONFIG=/kong.yml"
       - "KONG_PROXY_ACCESS_LOG=/dev/stdout"
       - "KONG_ADMIN_ACCESS_LOG=/dev/stdout"
       - "KONG_PROXY_ERROR_LOG=/dev/stderr"
       - "KONG_ADMIN_ERROR_LOG=/dev/stderr"
       - "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl"
+      - "CHAT_SERVER_URL=http://host.docker.internal:3000"
+      - "AUTH_API_URL=http://host.docker.internal:3001"
     extra_hosts:
       - "host.docker.internal:host-gateway"

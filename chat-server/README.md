@@ -16,8 +16,8 @@ $ RUST_LOG=debug cargo watch -x run
 send chat comment
 
 ```shell
-# websocket connection through kong
-# kong proxies localhost:80/chat access to localhost:3000 
+# websocket connection through proxy-kong
+# proxy-kong proxies localhost:80/chat access to localhost:3000 
 $ wscat -c "ws://localhost:80/chat/rooms/ws/roomC?audienceId=333"
 Connected (press CTRL+C to quit)
 > {"messageType":"POST_NEW_CHAT_COMMENT","text":"コメントです"}
