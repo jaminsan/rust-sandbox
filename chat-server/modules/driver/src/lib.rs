@@ -5,6 +5,7 @@ use once_cell::sync::Lazy;
 use tokio::sync::RwLock;
 
 pub mod comment_driver;
+mod test_rs_streams;
 
 static REDIS_CONNECTION_POOL: Lazy<RwLock<Pool<RedisConnectionManager>>> = Lazy::new(|| {
     let manager = RedisConnectionManager::new("redis://localhost:7000").unwrap();
